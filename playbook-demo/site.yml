@@ -1,0 +1,45 @@
+---
+ - name: install and configure apache2
+   hosts: webservers
+   become: yes
+   tasks:
+     - name: Install httpd and firewalld
+       apt:
+         name: 
+           - apache2
+           - firewalld
+         state: latest
+     - name: Enable httpd & firewalld
+       service:
+         name: apache2
+         enabled: true
+         state: started
+
+     - name: Enable firewalld
+       service:
+         name: firewalld
+         enabled: true
+         state: started
+
+     - name: Open firewalld ports
+       firewalld:
+         service: http
+         permanent: true
+         state: enabled
+         immediate: yes
+
+     - name: Copy html content
+       copy:
+         content: "welcome to our website <br> (This is deplyed using Ansible)"
+         dest: /var/www/html/index.html
+
+
+ - name: Test and Verify Webservers
+   hosts: localhost
+   become: no
+   tasks:
+     - name: Connect to the webserver
+       uri:
+         url: http://54.159.223.116
+         status_code: 200
+
