@@ -1,0 +1,13 @@
+---
+- name: Run a command
+  hosts: webservers
+  become: true
+  tasks:
+    - name: Check webservers uptime
+      shell: 'uptime'
+      register: shell_output  #this is a variable
+      ignore_errors: yes
+
+    - name: print the output
+      debug:
+        var: shell_output.stdout_lines   #msg/vars

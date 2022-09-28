@@ -1,0 +1,20 @@
+---
+- name: Install web package
+  hosts: webservers
+  become: true
+  tasks:
+    - name: install nginx
+      apt:
+        name: nginx
+        state: latest
+      register: apt_output  #this is a variable
+      ignore_errors: yes
+
+    - name: print the output
+      debug:
+        msg: "{{ apt_output }}"    #msg/vars
+
+    - name: print if failed
+      debug:
+        msg: "package failed to install"
+      when: apt_output.failed == true
