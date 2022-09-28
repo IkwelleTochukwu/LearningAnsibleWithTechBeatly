@@ -1,9 +1,7 @@
 ---
  - name: install and configure apache2
    hosts: "{{ nodes }}"
-   become: yes
-   vars:
-   vars_files:  
+   become: yes  
    tasks:
      - name: Include a variable file for this play
        include_vars: vars.yml

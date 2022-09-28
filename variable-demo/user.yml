@@ -1,0 +1,11 @@
+---
+ - name: Create users
+   hosts: webservers
+   become: true
+   vars_files:
+     - vars2.yml
+   tasks:
+     - name: Show users
+       debug:
+         #msg: "{{ users }}"
+         msg: "{{ users['Teycee']['firstname'] }}"

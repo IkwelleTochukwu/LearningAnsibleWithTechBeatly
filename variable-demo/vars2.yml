@@ -1,0 +1,12 @@
+users:
+  Teycee:
+    firstname: Teycee
+    lastname: Ikwelle
+    designation: Admin
+    location: London
+
+  Tochuukwu:
+    firstname: Tochuukwu
+    lastname: Anthony
+    designation: Admin
+    location: London
