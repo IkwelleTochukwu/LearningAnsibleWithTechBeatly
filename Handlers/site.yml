@@ -1,0 +1,42 @@
+---
+ - name: Enable Intranet Services
+   hosts: webservers
+   become: yes
+   ignore_errors: true
+   tasks:
+     - name: Install httpd and firewalld
+       apt:
+         name: 
+           - apache2
+           - firewalld
+         state: latest
+       notify:
+         - restart apache2
+
+     - name: Enable & run firewalld
+       service:
+         name: firewalld
+         enabled: true
+         state: started
+
+     - name: firewalld permit apache2 service
+       firewalld:
+         service: http
+         permanent: true
+         state: enabled
+         immediate: yes
+
+     - name: Test html page is installed
+       copy:
+         content: "Welcome to the example.com intranet!\n"
+         dest: /var/www/html/index.html
+       notify: restart apache2
+
+   handlers:
+     - name: restart apache2
+       service:
+         name: apache2
+         enabled: true
+         state: restarted
+
+
