@@ -1,0 +1,34 @@
+---
+- name: Loop and Task control
+  hosts: webservers
+  become: true
+  vars:
+    userlists:
+       - user101
+       - user102
+       - user103
+  tasks:
+    - name: Show users
+      debug:
+        msg: "{{ item }}"
+      with_list: "{{ userlists }}"
+    - name: create users
+      user:
+        name: "{{ item }}"
+      with_list: "{{ userlists }}"
+    - name: install packages
+      apt:
+         name:
+            - apache2
+            - firewalld
+         state: present
+
+    - name: Enable services
+      service:
+         name: "{{ item }}"
+         state: started
+         enabled: true
+      loop:
+        - apache2
+        - firewalld
+
