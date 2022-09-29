@@ -1,0 +1,7 @@
+---
+- name: Ansible Fact demo
+  hosts: webservers
+  tasks: 
+    - name: Show details
+      debug:
+        msg: "{{ ansible_distribution }} {{ ansible_default_ipv4['address'] }}"
