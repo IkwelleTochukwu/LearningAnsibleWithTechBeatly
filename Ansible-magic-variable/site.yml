@@ -1,0 +1,11 @@
+---
+- name: Learn magic variables
+  hosts: webservers
+  tasks:
+    - name: Show variables
+      debug:
+        msg: "{{ inventory_hostname }}"
+
+    - name: show group
+      debug:
+        msg: "{{ groups }}"
