@@ -1,0 +1,39 @@
+---
+- name: Loop and Task control
+  hosts: webservers
+  become: true
+  vars:
+    install_package: "ok"
+    supported_os:
+      - RedHat
+      - Fedora
+    min_memory: 100
+    userlists:
+       - user101
+       - user102
+       - user103
+  tasks:
+    - name: create users
+      user:
+        name: "{{ item }}"
+      with_list: "{{ userlists }}"
+    - name: install packages
+      apt:
+         name:
+            - apache2
+            - firewalld
+         state: present
+      when: 
+        - install_package == "ok"
+        - ansible_distribution in supported_os
+        - min_memory is defined
+
+    - name: Enable services
+      service:
+         name: "{{ item }}"
+         state: started
+         enabled: true
+      loop:
+        - apache2
+        - firewalld
+
