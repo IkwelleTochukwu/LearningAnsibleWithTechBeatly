@@ -1,0 +1,17 @@
+- name: Package installation
+  hosts: webservers
+  become: yes
+  tasks:
+    - block:
+        - name: install apache2
+          apt:
+            name: apache2
+            state: present
+      rescue:
+        - name: show error
+          debug:
+            msg: "unknown package"
+      always:
+        - name: message
+          debug:
+            msg: "package done"
