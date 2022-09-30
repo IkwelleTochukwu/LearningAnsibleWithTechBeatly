@@ -1,0 +1,29 @@
+- name: Package installation
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: install wrong
+      apt:
+        name: wrongpackage
+        state: present
+      ignore_errors: yes
+      register: error_message
+
+    - name: display message
+      debug:
+        msg: "{{  error_message }}"
+
+    - name: fail if there is failed status
+      fail:
+        msg: "The state is failed"
+      when: error_message.failed == True
+
+    - name: install good package
+      apt:
+        name: apache2
+        state: present
+
+
+    - name: message
+      debug:
+        msg: "package done"

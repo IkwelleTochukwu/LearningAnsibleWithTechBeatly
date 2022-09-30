@@ -1,0 +1,6 @@
+[webservers]
+node1 ansible_host=34.236.149.170
+node2 ansible_host=34.234.66.91 
+
+[myself]
+localhost ansible_connection=local

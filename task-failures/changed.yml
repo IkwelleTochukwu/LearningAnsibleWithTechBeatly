@@ -1,0 +1,13 @@
+---
+- name: changed_when
+  hosts: webservers
+  become: true
+  tasks:
+    - name: uptime
+      shell: 'uptime'
+      register: uptime_message
+      changed_when: "'Success' in uptime_message"
+
+    - name: print message
+      debug:
+        var: uptime_message
