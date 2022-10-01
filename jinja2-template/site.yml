@@ -4,8 +4,18 @@
   become: yes
   vars:
     system_admin_email: admin@local.lab
+    users:
+      - John
+      - James
+      - Peter
+      - Tony
   tasks: 
     - name: Deploy with jinja2
       template:
         dest: /etc/motd
         src: motd.j2
+
+    - name: Deploy user list
+      template:
+        dest: /tmp/user_list
+        src: user_list.j2
